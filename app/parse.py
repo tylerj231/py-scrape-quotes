@@ -25,7 +25,7 @@ def parse_single_quote(quote: Tag) -> Quote:
 
 
 def get_single_quote_page(page_soup: Tag) -> [Quote]:
-    quotes = page_soup.select_one(".quote")
+    quotes = page_soup.select(".quote")
     return [parse_single_quote(quote) for quote in quotes]
 
 
@@ -47,16 +47,15 @@ def get_quotes() -> [Quote]:
     return all_quotes
 
 
-def write_to_quotes_csv(quotes: list[Quote], path: str) -> None:
-    with open(f"{path}", "w", newline="") as file:
+def write_to_quotes_csv(quotes: [Quote], path: str) -> None:
+    with open(path, "w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(QUOTE_FIELDS)
         writer.writerows([astuple(quote) for quote in quotes])
 
 
 def main(output_csv_path: str) -> None:
-    quotes = get_quotes()
-    write_to_quotes_csv(quotes, output_csv_path)
+    write_to_quotes_csv(get_quotes(), output_csv_path)
 
 
 if __name__ == "__main__":
